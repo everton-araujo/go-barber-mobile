@@ -42,6 +42,34 @@ const SignUp: React.FC = () => {
     const emailInputRef = useRef<TextInput>(null);
     const passwordInputRef = useRef<TextInput>(null);
 
+    function fieldsValidateExtremeGoHorse(name, email, invalidEmail, password, invalidPassword) {
+        if (name !== null && email !== null && password !== null
+            && invalidEmail === null && invalidPassword === null) {
+            Alert.alert('Campos vazios', 'Preenchimento obrigatório');
+        } else {
+            if (name !== null) {
+                Alert.alert('Preencha o nome');
+                return;
+            }
+
+            if (email !== null) {
+                Alert.alert('Preencha o e-mail');
+                return;
+            } else if (invalidEmail !== null) {
+                Alert.alert('Digite um e-mail válido');
+                return;
+            }
+
+            if (password !== null) {
+                Alert.alert('Preencha a senha');
+                return;
+            } else if (invalidPassword !== null) {
+                Alert.alert('Senha precisa ter no mínimo 6 dígitos');
+                return;
+            }
+        }
+    }
+
     const handleSignUp = useCallback(async (data: SignUpFormData) => {
         try {
             formRef.current?.setErrors({});
@@ -49,7 +77,7 @@ const SignUp: React.FC = () => {
             const schema = Yup.object().shape({
                 name: Yup.string().required('Nome obrigatório'),
                 email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
-                password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+                password: Yup.string().min(6, 'No mínimo 6 dígitos').required('Senha obrigatória'),
             });
 
             await schema.validate(data, {
@@ -70,6 +98,19 @@ const SignUp: React.FC = () => {
                 const errors = getValidationErrors(err);
 
                 formRef.current?.setErrors(errors);
+
+                console.log(errors);
+
+
+                // TODO
+                // Redo this mess (fieldsValidateExtremeGoHorse)
+                const emptyName = JSON.stringify(errors).match('Nome');
+                const emptyEmail = JSON.stringify(errors).match('E-mail');
+                const invalidEmail = JSON.stringify(errors).match('válido');
+                const emptyPassword = JSON.stringify(errors).match('Senha');
+                const invalidPassword = JSON.stringify(errors).match('mínimo');
+
+                fieldsValidateExtremeGoHorse(emptyName, emptyEmail, invalidEmail, emptyPassword, invalidPassword);
 
                 return;
             }
