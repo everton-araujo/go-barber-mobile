@@ -99,9 +99,6 @@ const SignUp: React.FC = () => {
 
                 formRef.current?.setErrors(errors);
 
-                console.log(errors);
-
-
                 // TODO
                 // Redo this mess (fieldsValidateExtremeGoHorse)
                 const emptyName = JSON.stringify(errors).match('Nome');
