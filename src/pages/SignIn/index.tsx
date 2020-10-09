@@ -42,7 +42,7 @@ const SignIn: React.FC = () => {
     const navigation = useNavigation();
     const passwordInputRef = useRef<TextInput>(null);
 
-    const { signIn } = useAuth();
+    const { signIn, user } = useAuth();
 
     const handleSignIn = useCallback(async (data: SingInFormData) => {
         try {
@@ -76,7 +76,7 @@ const SignIn: React.FC = () => {
                 'Ocorreu um erro ao fazer login, cheque as credenciais'
             );
         }
-    }, [signIn]);
+    }, [navigation]);
 
     const formSubmit = () => {
         formRef.current?.submitForm();
