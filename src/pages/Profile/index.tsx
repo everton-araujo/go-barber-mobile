@@ -133,7 +133,7 @@ const SignUp: React.FC = () => {
             const data = new FormData();
 
             data.append('avatar', {
-                type: 'image/jpg',
+                type: 'image/jpeg',
                 name: `${user.id}.jpg`,
                 uri: response.uri,
             });
